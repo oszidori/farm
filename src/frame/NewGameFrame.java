@@ -43,7 +43,7 @@ public class NewGameFrame extends JFrame{
 	
 	//popup side-frame for the shop
 	private JDialog popupShop;
-	private List<JButton> buttonsInTheShop = new ArrayList<>();
+	public static List<JButton> buttonsInTheShop = new ArrayList<>();
 	private Map<Integer, Seed> shopItems;
 	public static JComboBox<Integer> availableToSell = new JComboBox<>();
 	private JButton sellButton;

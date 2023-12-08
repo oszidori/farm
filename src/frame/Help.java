@@ -37,7 +37,7 @@ public class Help extends JFrame{
         text.setText("<html><b>Buttons:</b><br>" +
         "<b>Inventory:</b> shows the owned seeds, you can sell or plant these <br>"+
         "<b>Shop:</b> you can buy new seeds by clicking on the preffered seed name<br> or sell a seed by choose it from the list and click on the Sell button<br>"+
-        "<b>Soils:</b> the numbered rectangles are the soils, you can interact with them.<br>"+
+        "<b>Soils:</b> the numbered rectangles are the soils, you can interact with them.<br> Buying Price: 200<br>"+
         "<b>SAVE and Go back:</b> this button saves the current field and inventory items <br> The plant is lost if it didn't harvested before clicking on the save button<br>"+
         "<b>The meaning of the colors of the soil:</b></html>");
         text.setHorizontalAlignment(SwingConstants.LEFT);

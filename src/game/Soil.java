@@ -193,6 +193,13 @@ public class Soil{
 		    				player.getInventoryItems().remove(i);
 		    			}
 		    		}
+					for(JButton current: NewGameFrame.buttonsInTheShop){
+						String[] buttonName = current.getText().split(" ");
+						int currentid = Integer.parseInt(buttonName[0]);
+						if(currentid == selected){
+							current.setEnabled(true);
+						}
+					}
 		    		//refresh the content of this jcombobox
 					refreshTheContentOfSeeds();
 					chooseSeed.repaint();
