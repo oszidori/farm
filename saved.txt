@@ -1,6 +1,6 @@
 PlayerName: antal
-PlayerMoney: 440
-InventoryItems: 100,Wheat,80,1,60
-InventoryItems: 101,Wheat,80,1,60
+PlayerMoney: 540
+InventoryItems: 100,Wheat,80,1,100
+InventoryItems: 101,Wheat,80,1,100
 Soils: 0,BasicSoil,200
 Soils: 1,BasicSoil,200

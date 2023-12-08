@@ -111,7 +111,7 @@ public class Player {
     		success = ownInventory.removeItem(id);
     	
     	if(success) {
-        	int profit = current.getHarvestProfit();
+        	int profit = current.getBuyPrice();
         	riseMoney(profit);
     	}
     	return success;
