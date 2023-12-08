@@ -1,5 +1,7 @@
 package game;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,16 +11,35 @@ public class Shop {
 
     public Shop() {
         this.shopItems = new HashMap<>();
-        initializeShop();
+        initializeShop("seeds.txt");
     }
     //items that appears on the shop always
-    private void initializeShop() {
+    private void initializeShop(String fileName) {
         //Add seeds to the shop
-    	for(int i = 0; i < 10; i++) {
-	        shopItems.put(100+i, new Seed(100+i, "CarrotSeed", 80, 1, 100));
-	        shopItems.put(200+i, new Seed(200+i, "TomatoSeed", 100, 1, 120));
-	        shopItems.put(300+i, new Seed(300+i, "SunflowerSeed", 120, 1, 140));
-    	}
+        try(BufferedReader reader = new BufferedReader(new FileReader(fileName))){
+            String line;
+            while ((line = reader.readLine()) != null){
+                String[] seed = line.split(",");
+                int id = Integer.parseInt(seed[0]);
+                String name = seed[1];
+                int buyPrice = Integer.parseInt(seed[2]);
+                int growTime = Integer.parseInt(seed[3]);
+                int harvestProfit = Integer.parseInt(seed[4]);
+
+                if(name.equals("Wheat")){
+                    shopItems.put(id, new Wheat(id, name, buyPrice, growTime, harvestProfit));
+                }
+                if(name.equals("Tomato")){
+                    shopItems.put(id, new Tomato(id, name, buyPrice, growTime, harvestProfit));
+                }
+                if(name.equals("Carrot")){
+                    shopItems.put(id, new Carrot(id, name, buyPrice, growTime, harvestProfit));
+                }
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     public Map<Integer, Seed> getShopItems(){
     	return shopItems;

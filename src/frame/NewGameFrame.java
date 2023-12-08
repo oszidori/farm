@@ -34,6 +34,7 @@ public class NewGameFrame extends JFrame{
 	private JLabel playerName;
 	private static JLabel playerMoney;
 	private JButton backToMenu;
+	private JButton help;
 	
 	//west side toolbar: contains the inventory and the shop
 	private JToolBar toolbar;
@@ -110,6 +111,7 @@ public class NewGameFrame extends JFrame{
 		playerName = new JLabel();
 		playerMoney = new JLabel();
 		backToMenu = new JButton("SAVE and go back to the Menu!");
+		help = new JButton("Help");
 		
 		//customize the containers and the texts
 		CustomizePlayerDetails();
@@ -126,6 +128,12 @@ public class NewGameFrame extends JFrame{
 				frame.setVisible(true);
 			}
 		});
+		help.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ae){
+				Help helpframe = new Help();
+				helpframe.setVisible(true);
+			}
+		});
 		
 		//customize the order of the containers
 		playerDetails.setLayout(new FlowLayout(FlowLayout.CENTER, 50, 20));
@@ -134,6 +142,7 @@ public class NewGameFrame extends JFrame{
 		playerDetails.add(playerName);
 		playerDetails.add(playerMoney);
 		playerDetails.add(backToMenu);
+		playerDetails.add(help);
 	}
 	//customize the player details
 	public void CustomizePlayerDetails() {
@@ -150,10 +159,12 @@ public class NewGameFrame extends JFrame{
 		playerName.setFont(f_text);
 		playerMoney.setFont(f_text);
 		backToMenu.setFont(f_text);
+		help.setFont(f_text);
 		
 		playerName.setBackground(new Color(153, 255, 153));
 		playerMoney.setBackground(new Color(153, 255, 153));
 		backToMenu.setBackground(new Color(0, 204, 0));
+		help.setBackground(new Color(0, 204, 0));
 	}
 	
 	//initialize the toolbar
@@ -249,7 +260,24 @@ public class NewGameFrame extends JFrame{
         for(Seed item: shopItems.values()) {
         	String buttonName = item.getId() +" : "+ item.getName() + " || Price: "+ item.getBuyPrice();
         	JButton currentButton = new JButton(buttonName);
-        	currentButton.setBackground(new Color(0, 204, 0));
+			Seed inInventory = farm.getShop().findItemInInventory(farm.getPlayer(), item);
+
+			if(inInventory != null){
+				currentButton.setEnabled(false);
+			}
+			switch (item.getName()) {
+				case "Wheat":
+					currentButton.setBackground(new Color(255, 255, 102));
+					break;
+				case "Tomato": 
+					currentButton.setBackground(new Color(255, 102, 102));
+					break;
+				case "Carrot":
+					currentButton.setBackground(new Color(255, 178, 102));
+					break;
+				default:
+					break;
+			}
         	buttonsInTheShop.add(currentButton);
         }
         //add the buttons to a panel to organize them
@@ -301,6 +329,8 @@ public class NewGameFrame extends JFrame{
 			}
 			//if the item was add successfully, than refresh the shop, inventory and money
 			if(success) {
+
+				source.setEnabled(false);
 				refreshTheMoney();
 				
 				refreshTheContent();
@@ -348,6 +378,14 @@ public class NewGameFrame extends JFrame{
 					availableToSell.repaint();
 					
 					repaintTheInventory();
+					
+					for(JButton current: buttonsInTheShop){
+						String[] buttonName = current.getText().split(" ");
+						int id = Integer.parseInt(buttonName[0]);
+						if(id == selectedId){
+							current.setEnabled(true);
+						}
+					}
 					
 					soils = farm.getAllSoils();
 			        for(int i = 0; i < soils.size(); i++) {

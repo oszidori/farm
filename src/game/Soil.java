@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -24,6 +23,7 @@ public class Soil{
 	private JButton watering;
 	private JButton harvestPlant;
 	private JLabel text;
+	private JLabel waterInfo;
 	
 	public JComboBox<Integer> chooseSeed;
 	
@@ -34,8 +34,6 @@ public class Soil{
 	private int buyPrice;
 	//is it already bought by the player
     private boolean isOpen;
-    //shows that the plant was watered or not
-    private boolean isWatered;
     //current seed on the soil
     private Seed plantedSeed;
 
@@ -54,6 +52,7 @@ public class Soil{
     	chooseSeed = new JComboBox<>();
     	soilActions = new JPanel();
 		text = new JLabel("Please click on the preferred interaction!");
+		waterInfo = new JLabel();
 		
 		//set default background and initialize the jcombobox
 		soilButton.setBackground(Color.gray);
@@ -74,7 +73,6 @@ public class Soil{
     	this.name = name;
     	this.buyPrice = buyPrice;
         this.isOpen = false;
-        this.isWatered = false;
         this.plantedSeed = null;
     }
     //customize the frame and components and add actionListeners to the buttons
@@ -210,6 +208,10 @@ public class Soil{
 					plantSeed.setEnabled(false);
 					watering.setEnabled(true);
 					harvestPlant.setEnabled(false);
+
+					//show the waterInfo for the user
+					waterInfo.setVisible(true);
+					waterInfo.setText("It needs to be watered " + plantedSeed.getGrowTime() + " more times!");
 					
 					//set the soul background brown to show that player that they planted here something
 					soilButton.setBackground(new Color(150, 110, 70));
@@ -226,19 +228,27 @@ public class Soil{
 	    watering.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent ae) {
 	    		//set the watered status true and use the plant water method
-	    		isWatered = true;
 	    		plantedSeed.water();
 	    		//change the buttons status
     			buySoil.setEnabled(false);
     			sellSoil.setEnabled(true);
 				plantSeed.setEnabled(false);
-				watering.setEnabled(false);
+
+				//waterInfo number changes
+				waterInfo.setText("It needs to be watered " + plantedSeed.getGrowTime() + " more times!");
 				/*if the planted seed is grown,
 				 * than the harvest button is enabled and the background is yellow
 				 *  to show the player that the plant is ready to harvest*/
 				if(plantedSeed.isGrown()) {
 					harvestPlant.setEnabled(true);
-					soilButton.setBackground(Color.yellow);
+					watering.setEnabled(false);
+					waterInfo.setVisible(false);
+					if(plantedSeed.getName().equals("Wheat"))
+						soilButton.setBackground(Color.yellow);
+					if(plantedSeed.getName().equals("Tomato"))
+						soilButton.setBackground(Color.red);
+					if(plantedSeed.getName().equals("Carrot"))
+						soilButton.setBackground(Color.orange);
 				}
 				//close the popup frame  
 				popupSoilActions.dispose();
@@ -319,6 +329,9 @@ public class Soil{
 		popupSoilActions.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
 		popupSoilActions.add(text);
 		popupSoilActions.add(soilActions);
+
+		waterInfo.setVisible(false);
+		popupSoilActions.add(waterInfo);
 		
 		
     }
@@ -342,13 +355,10 @@ public class Soil{
     public void setOpen(boolean status) {
     	isOpen = status;
     }
-    //return the watering status
-    public boolean isWatered() {
-        return isWatered;
-    }
+
     //return the plant is grown and ready to harvest
     public boolean isGrown() {
-        return isOpen && isWatered && plantedSeed != null && plantedSeed.isGrown();
+        return isOpen && plantedSeed != null && plantedSeed.isGrown();
     }
     public Seed getPlanted() {
     	return plantedSeed;
@@ -356,12 +366,23 @@ public class Soil{
     //plant a new seed
     public void plantSeed(Seed seed) {
         if (isOpen && plantedSeed == null) {
-            plantedSeed = seed;
+            String currentname = seed.getName();
+			switch(currentname){
+				case "Wheat" :
+					plantedSeed = new Wheat(seed.getId(), seed.getName(), seed.getBuyPrice(), seed.getGrowTime(), seed.getHarvestProfit());
+					break;
+				case "Tomato" :
+					plantedSeed = new Tomato(seed.getId(), seed.getName(), seed.getBuyPrice(), seed.getGrowTime(), seed.getHarvestProfit());
+					break;
+				case "Carrot" :
+					plantedSeed = new Carrot(seed.getId(), seed.getName(), seed.getBuyPrice(), seed.getGrowTime(), seed.getHarvestProfit());
+					break;
+				default: break;
+			}
         }
     }
     //water the current seed
     public void water() {
-        isWatered = true;
         if (plantedSeed != null) {
             plantedSeed.water();
         }
@@ -372,7 +393,6 @@ public class Soil{
         if (isGrown()) {
             profit = plantedSeed.getHarvestProfit();
             plantedSeed = null;
-            isWatered = false;
         }
         return profit;
     }

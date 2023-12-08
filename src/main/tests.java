@@ -185,24 +185,10 @@ public class tests {
         testSoil.setOpen(true);
         testSoil.plantSeed(testSeed);
         
-        //check if the seed is watered, planted and equals it correctly
-        assertFalse(testSoil.isWatered());
+        //check if the seed is planted and equals it correctly
         assertNotNull(testSoil.getPlanted());
         assertEquals(testSeed, testSoil.getPlanted());
     }
-    @Test
-    public void testWater() {
-    	//plant a seed
-        testSoil.plantSeed(testSeed);
-        //check it's watering status
-        assertFalse(testSoil.isWatered());
-
-        //water the soil
-        testSoil.water();
-        //check the status
-        assertTrue(testSoil.isWatered());
-    }
-
-
 }
+
 
