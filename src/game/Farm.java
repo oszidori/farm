@@ -24,11 +24,11 @@ public class Farm {
 		//whole new game constructor
 		else {
 			//because adding the initial items is free
-			player.riseMoney(560);
-			
-			player.addToInventory(new Seed(100, "CarrotSeed", 80, 1, 100));
-			player.addToInventory(new Seed(101, "CarrotSeed", 80, 1, 100));
+			player.riseMoney(720);
 			shop = new Shop();
+			shop.buyItem(player, 100);
+			shop.buyItem(player, 101);
+			
 			allSoils = initSoils();
 			player.addSoil(allSoils.get(0));
 			player.addSoil(allSoils.get(1));
