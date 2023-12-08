@@ -1,0 +1,7 @@
+PlayerName: antal
+PlayerMoney: 140
+Soils: 0,BasicSoil,200
+Soils: 1,BasicSoil,200
+Soils: 2,BasicSoil,200
+Soils: 18,BasicSoil,200
+Soils: 16,BasicSoil,200
