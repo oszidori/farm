@@ -274,6 +274,20 @@ public class Soil{
 	    			int profit = plantedSeed.getHarvestProfit();
 					player.riseMoney(profit);
 					NewGameFrame.refreshTheMoney();
+					for(Seed current: farm.getShop().getShopItems().values()){
+						if(current == plantedSeed){
+							current.setGrown(false);
+							if(current.getName().equals("Wheat")){
+								current.setGrowTime(1);
+							}
+							if(current.getName().equals("Tomato")){
+								current.setGrowTime(3);
+							}
+							if(current.getName().equals("Carrot")){
+								current.setGrowTime(5);
+							}
+						}
+					}
 					//plantedSeed is null after harvesting
 	    			plantedSeed = null;
 	    			//button background is green, to show the player that available to plant seed again

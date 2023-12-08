@@ -28,6 +28,9 @@ public class Seed{
     public int getGrowTime() {
     	return growTime;
     }
+    public void setGrowTime(int time){
+        growTime = time;
+    }
     public int getBuyPrice() {
     	return buyPrice;
     }
@@ -35,7 +38,9 @@ public class Seed{
     public boolean isGrown() {
         return isGrown;
     }
-
+	public void setGrown(boolean b){
+		isGrown = b;
+	}
     //return the profit
     public int getHarvestProfit() {
         return harvestProfit;
