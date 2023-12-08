@@ -35,6 +35,7 @@ public class Seed{
     public boolean isGrown() {
         return isGrown;
     }
+
     //return the profit
     public int getHarvestProfit() {
         return harvestProfit;

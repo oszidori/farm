@@ -15,20 +15,21 @@ import org.junit.Test;
 public class tests {
 	//test Inventory class
 	//test Player class
-	//test two methods from Soil class
     private Inventory testInventory;
     private Seed testSeed;
     private Player testPlayer;
     private Soil testSoil;
+    private Shop testShop;
   
 
 
     @Before
     public void setUp() {
         testInventory = new Inventory();
-        testSeed = new Seed(1, "TestSeed", 80, 1, 100);
+        testSeed = new Seed(1, "Wheat", 80, 1, 100);
         testPlayer = new Player("TestPlayer");
         testSoil = new Soil(null, testPlayer, null, 1, "TestSoil", 200);
+        testShop = new Shop();
 
     }
     @Test
@@ -45,10 +46,10 @@ public class tests {
 
         //fill the inventory to its maximum size
         for (int i = 2; i <= 30; i++) {
-            assertTrue(testInventory.addItem(new Seed(i, "TestSeed" + i, 80, 1, 100)));
+            assertTrue(testInventory.addItem(new Seed(i, "Wheat" + i, 80, 1, 100)));
         }
         //attempt to add one more item when inventory is full
-        assertFalse(testInventory.addItem(new Seed(101, "TestSeed101", 80, 1, 100)));
+        assertFalse(testInventory.addItem(new Seed(101, "Wheat101", 80, 1, 100)));
         assertEquals(30, testInventory.getItems().size());
     }
 
@@ -93,7 +94,7 @@ public class tests {
 
         //fill the inventory to its maximum size
         for (int i = 1; i <= 30; i++) {
-            assertTrue(testInventory.addItem(new Seed(i, "TestSeed" + i, 80, 1, 100)));
+            assertTrue(testInventory.addItem(new Seed(i, "Wheat" + i, 80, 1, 100)));
         }
 
         //check if the inventory is full
@@ -178,16 +179,41 @@ public class tests {
         assertTrue(testPlayer.getInventoryItems().isEmpty());
     }
     @Test
-    public void testPlantSeed() {
-        assertFalse(testSoil.isGrown());
+    public void testBuyItemWithEnoughMoney() {
+    	//set player's money to be more than the buy price of the item
+        testPlayer.setMoney(100);  
+        //add the item to the shop
+        testShop.getShopItems().put(1, testSeed);
 
-        //plant a seed
-        testSoil.setOpen(true);
-        testSoil.plantSeed(testSeed);
+        boolean result = testShop.buyItem(testPlayer, 1);
         
-        //check if the seed is planted and equals it correctly
-        assertNotNull(testSoil.getPlanted());
-        assertEquals(testSeed, testSoil.getPlanted());
+        //buying should be successful
+        assertTrue(result);
+        assertEquals(20, testPlayer.getMoney()); 
+    }
+    @Test
+    public void testBuyItemWithNotEnoughMoney() {
+    	//set player's money to be less than the buy price of the item
+        testPlayer.setMoney(50);  
+        //add the item to the shop
+        testShop.getShopItems().put(1, testSeed);  
+
+        boolean result = testShop.buyItem(testPlayer, 1);
+        //buying should not be successful
+        assertFalse(result); 
+        assertEquals(50, testPlayer.getMoney());  
+    }
+    @Test
+    public void testSellItem() {
+    	testPlayer.setMoney(80);
+        Seed playerSeed = new Seed(1, "Wheat", 80, 1, 100);
+        //add to the inventory
+        testPlayer.addToInventory(playerSeed);
+        //sell the seed
+        testShop.sellItem(testPlayer, playerSeed);
+        //player's money should increase
+        assertEquals(100, testPlayer.getMoney());  
+        assertTrue(testPlayer.getInventoryItems().isEmpty()); 
     }
 }
 
