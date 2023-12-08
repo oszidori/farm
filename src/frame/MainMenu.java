@@ -37,8 +37,9 @@ public class MainMenu extends JPanel {
         loadGame.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                NewGameFrame frame = new NewGameFrame("loadgame");
-                frame.setVisible(true);
+                NewGameFrame gameframe = new NewGameFrame("loadgame");
+                gameframe.setVisible(true);
+				frame.dispose();
             }
         });
         exit.addActionListener(new ActionListener() {

@@ -1,5 +1,5 @@
-PlayerName: antal
-PlayerMoney: 540
+PlayerName: Dori
+PlayerMoney: 500
 InventoryItems: 100,Wheat,80,1,100
 InventoryItems: 101,Wheat,80,1,100
 Soils: 0,BasicSoil,200
