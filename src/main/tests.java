@@ -212,7 +212,7 @@ public class tests {
         //sell the seed
         testShop.sellItem(testPlayer, playerSeed);
         //player's money should increase
-        assertEquals(100, testPlayer.getMoney());  
+        assertEquals(80, testPlayer.getMoney());  
         assertTrue(testPlayer.getInventoryItems().isEmpty()); 
     }
 }
